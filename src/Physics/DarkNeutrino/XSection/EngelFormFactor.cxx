@@ -55,6 +55,8 @@ double EngelFormFactor::FormFactor(const double Q2, const Target & target) const
     << " and target: " << target.AsString();
 
   const double A = target.A();
+  if(target.IsProton())
+    return 1;
 
   const double s = 1.*units::fm;
   const double s2 = s * s;

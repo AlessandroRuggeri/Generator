@@ -120,7 +120,7 @@ bool BertuzzoDNuCOHPXSec::ValidProcess(const Interaction * interaction) const
   if ( ! pdg::IsNeutrino( TMath::Abs( init_state.ProbePdg() ) ) ) return false ;
 
   const Target & target = init_state.Tgt();
-  if( ! target.IsNucleus() ) return false ;
+  if( !target.IsNucleus() && !target.IsProton()) return false ;
 
   return true;
 }

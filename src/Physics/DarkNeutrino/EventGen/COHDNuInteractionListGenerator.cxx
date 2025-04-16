@@ -54,7 +54,7 @@ InteractionList * COHDNuInteractionListGenerator::CreateInteractionList(
      return 0;
   }
   const Target & target = init_state.Tgt();
-  if(!target.IsNucleus()) {
+  if(!target.IsNucleus() && !target.IsProton()) {
      // happens as this code is also indiscriminately both for free-nucleon and
      // nuclear targets - don't warn
      LOG("IntLst", pINFO)
