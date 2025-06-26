@@ -13,7 +13,7 @@
 
 #include <TMath.h>
 
-#include "Physics/DarkNeutrino/XSection/EngelFormFactor.h"
+#include "Physics/DarkNeutrino/XSection/ExtendedEngelFormFactor.h"
 #include "Framework/Messenger/Messenger.h"
 
 #include "Framework/Conventions/Constants.h"
@@ -25,62 +25,65 @@ using namespace genie;
 
 
 //____________________________________________________________________________
-EngelFormFactor::EngelFormFactor() :
+ExtendedEngelFormFactor::ExtendedEngelFormFactor() :
 Algorithm("genie::EngelFormFactor")
 {
 
 }
 //____________________________________________________________________________
-EngelFormFactor::EngelFormFactor(string config) :
+ExtendedEngelFormFactor::ExtendedEngelFormFactor(string config) :
 Algorithm("genie::EngelFormFactor", config)
 {
 
 }
 //____________________________________________________________________________
-EngelFormFactor::~EngelFormFactor()
+ExtendedEngelFormFactor::~ExtendedEngelFormFactor()
 {
 
 }
 //____________________________________________________________________________
-double EngelFormFactor::FormFactor(const double Q2, const Target & target) const {
+double ExtendedEngelFormFactor::FormFactor(const double Q2, const Target & target) const {
 
-  if(!target.IsValidNucleus()) {
-    LOG("EngelFormFactor", pWARN)
-      << "target: " << target.AsString() << " is not a valid nucleus. ";
-    return 0.;
+  if(!target.IsProton()) {
+    return fFragmFunc->FormFactor();
   }
+  
+  LOG("ExtendedEngelFormFactor", pWARN)
+    << "target: " << target.AsString() << " is a proton.";
 
-  LOG("EngelFormFactor", pDEBUG)
+  LOG("ExtendedEngelFormFactor", pDEBUG)
     << "Running Engel Form Factor with Q2: " << Q2
     << " and target: " << target.AsString();
 
   const double A = target.A();
 
-  const double s = 1.*units::fm;
-  const double s2 = s * s;
-  const double R = 1.2*TMath::Power(A, 1./3.)*units::fm;
-  const double r = TMath::Sqrt(R*R - 5.*s*s);
-  const double qr = TMath::Sqrt(Q2) * r;
+//   // TODO: placeholder form factor for H1
+  return 1.0;
+  //   const double s = 1.*units::fm;
+  //   const double s2 = s * s;
+  //   const double R = 1.2*TMath::Power(A, 1./3.)*units::fm;
+  //   const double r = TMath::Sqrt(R*R - 5.*s*s);
+  //   const double qr = TMath::Sqrt(Q2) * r;
 
-  const double f1 = 3. * TMath::Exp(-.5*Q2*s2) * TMath::Power(qr, -3.);
-  const double f2 = TMath::Sin(qr) - qr*TMath::Cos(qr);
-  return f1 * f2;
+  //   const double f1 = 3. * TMath::Exp(-.5*Q2*s2) * TMath::Power(qr, -3.);
+  //   const double f2 = TMath::Sin(qr) - qr*TMath::Cos(qr);
+  //   return f1 * f2;
 }
 //____________________________________________________________________________
-void EngelFormFactor::Configure(const Registry & config)
+void ExtendedEngelFormFactor::Configure(const Registry & config)
 {
   Algorithm::Configure(config);
   this->LoadConfig();
 }
 //____________________________________________________________________________
-void EngelFormFactor::Configure(string config)
+void ExtendedEngelFormFactor::Configure(string config)
 {
   Algorithm::Configure(config);
   this->LoadConfig();
 }
 //____________________________________________________________________________
-void EngelFormFactor::LoadConfig(void)
+void ExtendedEngelFormFactor::LoadConfig(void)
 {
-
+  fFragmFunc = dynamic_cast<const EngelFormFactor *>(this->SubAlg("base-ff"));
 }
 //____________________________________________________________________________

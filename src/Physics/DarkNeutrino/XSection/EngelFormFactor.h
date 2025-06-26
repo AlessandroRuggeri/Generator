@@ -37,19 +37,19 @@ public:
   EngelFormFactor(string config);
   virtual ~EngelFormFactor();
 
-  double FormFactor(const double Q, const Target & target) const ;
+  virtual double FormFactor(const double Q, const Target & target) const ;
   // The Q has to be in GeV
   // The returned FF is in natural units
 
   //-- override the Algorithm::Configure methods to load configuration
   //   data to private data members
-  void Configure (const Registry & config);
-  void Configure (string param_set);
+  void Configure (const Registry & config) override;
+  void Configure (string param_set) override;
 
 
-private:
+protected:
 
-  void LoadConfig(void);
+  virtual void LoadConfig(void);
 
 };
 
