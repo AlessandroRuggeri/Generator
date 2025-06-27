@@ -37,6 +37,12 @@ Algorithm("genie::EngelFormFactor", config)
 
 }
 //____________________________________________________________________________
+EngelFormFactor::EngelFormFactor(string alg_name,string config) :
+Algorithm(alg_name, config)
+{
+
+}
+//____________________________________________________________________________
 EngelFormFactor::~EngelFormFactor()
 {
 

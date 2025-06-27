@@ -26,13 +26,13 @@ using namespace genie;
 
 //____________________________________________________________________________
 ExtendedEngelFormFactor::ExtendedEngelFormFactor() :
-Algorithm("genie::EngelFormFactor")
+EngelFormFactor("genie::ExtendedEngelFormFactor", "Default")
 {
 
 }
 //____________________________________________________________________________
 ExtendedEngelFormFactor::ExtendedEngelFormFactor(string config) :
-Algorithm("genie::EngelFormFactor", config)
+EngelFormFactor("genie::ExtendedEngelFormFactor", config)
 {
 
 }
@@ -45,7 +45,7 @@ ExtendedEngelFormFactor::~ExtendedEngelFormFactor()
 double ExtendedEngelFormFactor::FormFactor(const double Q2, const Target & target) const {
 
   if(!target.IsProton()) {
-    return fFragmFunc->FormFactor();
+    return fFragmFunc->FormFactor(Q2, target);
   }
   
   LOG("ExtendedEngelFormFactor", pWARN)

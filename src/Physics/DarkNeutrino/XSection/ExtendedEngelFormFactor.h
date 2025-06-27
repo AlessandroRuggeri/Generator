@@ -28,7 +28,7 @@
 #ifndef _EXTENDED_ENGEL_FORM_FACTOR_H_
 #define _EXTENDED_ENGEL_FORM_FACTOR_H_
 
-#include "Physics/DarkNeutrino/EngelFormFactor.h"
+#include "Physics/DarkNeutrino/XSection/EngelFormFactor.h"
 
 namespace genie {
 
