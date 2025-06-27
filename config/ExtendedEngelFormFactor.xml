@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+
+<!--
+Configuration sets for the ExtendedEngelFormFactor
+No configurable parameters.
+Dependent on a genie::EngelFormFactor SubAlg for targets with A>1
+..........................................................................................................
+Name                          Type        Optional   Comment
+..........................................................................................................
+
+-->
+
+
+
+<alg_conf>
+
+  <param_set name="Default">
+    <param name="base-ff" type="alg"> genie::EngelFormFactor/Default</param>
+  </param_set>
+
+</alg_conf>

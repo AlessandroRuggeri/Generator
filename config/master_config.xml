@@ -155,6 +155,7 @@
    <config alg="genie::RSHelicityAmplModelEMp">                  RSHelicityAmplModelEMp.xml                  </config>
    <config alg="genie::RSHelicityAmplModelEMn">                  RSHelicityAmplModelEMn.xml                  </config>
    <config alg="genie::EngelFormFactor">                         EngelFormFactor.xml                         </config>
+   <config alg="genie::ExtendedEngelFormFactor">                 ExtendedEngelFormFactor.xml                 </config>
 
 
    <!--  ****** CONFIGURATION GENERIC CROSS SECTION INTEGRATORS ****** -->
