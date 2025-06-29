@@ -34,8 +34,8 @@ class EngelFormFactor : public Algorithm {
 
 public:
   EngelFormFactor();
-  EngelFormFactor(string config);
-  EngelFormFactor(string alg_name, string config);
+  EngelFormFactor(string name);
+  EngelFormFactor(string name, string config);
   virtual ~EngelFormFactor();
 
   virtual double FormFactor(const double Q, const Target & target) const ;

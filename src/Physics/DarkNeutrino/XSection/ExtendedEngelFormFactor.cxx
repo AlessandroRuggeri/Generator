@@ -26,7 +26,7 @@ using namespace genie;
 
 //____________________________________________________________________________
 ExtendedEngelFormFactor::ExtendedEngelFormFactor() :
-EngelFormFactor("genie::ExtendedEngelFormFactor", "Default")
+EngelFormFactor("genie::ExtendedEngelFormFactor")
 {
 
 }
@@ -55,10 +55,11 @@ double ExtendedEngelFormFactor::FormFactor(const double Q2, const Target & targe
     << "Running Engel Form Factor with Q2: " << Q2
     << " and target: " << target.AsString();
 
-  const double A = target.A();
+  // const double A = target.A();
 
-//   // TODO: placeholder form factor for H1
+  // TODO: placeholder form factor for H1
   return 1.0;
+  
   //   const double s = 1.*units::fm;
   //   const double s2 = s * s;
   //   const double R = 1.2*TMath::Power(A, 1./3.)*units::fm;
