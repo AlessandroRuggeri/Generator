@@ -26,7 +26,7 @@
 #define _BERTUZZO_DNu_COH_CROSS_SECTION_H_
 
 #include "Framework/EventGen/XSecAlgorithmI.h"
-#include "Physics/DarkNeutrino/XSection/EngelFormFactor.h"
+#include "Physics/DarkNeutrino/XSection/ExtendedEngelFormFactor.h"
 
 namespace genie {
 
@@ -55,7 +55,7 @@ private:
   void LoadConfig(void);
 
   const XSecIntegratorI * fXSecIntegrator;  ///< cross section integrator
-  const EngelFormFactor * fFF; ///< Engel Form Factor algorithm
+  const ExtendedEngelFormFactor * fFF; ///< Engel Form Factor algorithm
 
   double fEps2;
 

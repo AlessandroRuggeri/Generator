@@ -24,7 +24,7 @@
 #include "Framework/Utils/KineUtils.h"
 #include "Physics/XSectionIntegration/XSecIntegratorI.h"
 #include "Physics/DarkNeutrino/XSection/BertuzzoDNuCOHPXSec.h"
-#include "Physics/DarkNeutrino/XSection/EngelFormFactor.h"
+#include "Physics/DarkNeutrino/XSection/ExtendedEngelFormFactor.h"
 
 using namespace genie;
 using namespace genie::utils;
@@ -120,7 +120,7 @@ bool BertuzzoDNuCOHPXSec::ValidProcess(const Interaction * interaction) const
   if ( ! pdg::IsNeutrino( TMath::Abs( init_state.ProbePdg() ) ) ) return false ;
 
   const Target & target = init_state.Tgt();
-  if( !target.IsNucleus() && !target.IsProton()) return false ;
+  if( !target.IsNucleus()) return false ;
 
   return true;
 }
@@ -215,7 +215,7 @@ void BertuzzoDNuCOHPXSec::LoadConfig(void)
   fXSecIntegrator =
       dynamic_cast<const XSecIntegratorI *> (this->SubAlg("XSec-Integrator"));
   assert(fXSecIntegrator);
-  fFF = dynamic_cast<const EngelFormFactor *> (this->SubAlg("FormFactor"));
+  fFF = dynamic_cast<const ExtendedEngelFormFactor *> (this->SubAlg("FormFactor"));
   assert(fFF);
 
   if ( ! good_configuration ) {
