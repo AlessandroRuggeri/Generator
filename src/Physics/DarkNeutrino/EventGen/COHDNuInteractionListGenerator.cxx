@@ -57,11 +57,17 @@ InteractionList * COHDNuInteractionListGenerator::CreateInteractionList(
   if(!target.IsNucleus() && !target.IsProton()) {
      // happens as this code is also indiscriminately both for free-nucleon and
      // nuclear targets - don't warn
-     LOG("IntLst", pINFO)
-       << "Not a nuclear target! Returning NULL InteractionList "
+     LOG("IntLst", pWARN)
+       <<target.AsString()<< " is not a nuclear target! Returning NULL InteractionList "
        << "for init-state: " << init_state.AsString();
      return 0;
   }
+
+  // 01/07/2025 Fix an HitNucPdg to kPdgTgtFreeP==1000010010
+  // in order for InitialStateAppender::AddStruckParticle to add the proton target to GHepRecord
+  Target * target_ptr  = init_state.TgtPtr();
+  if(target.IsProton())
+    target_ptr->SetHitNucPdg(kPdgTgtFreeP);
 
   InteractionList * intlist = new InteractionList;
 
