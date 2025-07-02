@@ -16,7 +16,7 @@ Name                          Type        Optional   Comment
 <alg_conf>
 
   <param_set name="Default">
-    <param name="base-ff" type="alg"> genie::EngelFormFactor/Default</param>
+    <param type="alg" name="base-ff"> genie::EngelFormFactor/Default  </param>
   </param_set>
 
 </alg_conf>
