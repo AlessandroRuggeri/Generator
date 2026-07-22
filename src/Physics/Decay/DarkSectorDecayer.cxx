@@ -271,6 +271,36 @@ std::vector<DarkSectorDecayer::DecayChannel> DarkSectorDecayer::DarkNeutrinoDeca
       }
     }
   }
+  // implementation of the Dark neutrino 3-body decay amplitude 
+  else if (mother_pdg == kPdgDarkNeutrino || mother_pdg == kPdgAntiDarkNeutrino){
+    const double gV2_nu = 1;
+    const double gA2_nu = 1;
+    const double squareMassDiff = fDMediatorMass2 - fDNuMass2;
+    static const double electron_threshold = 2.*PDGLibrary::Instance()->Find(kPdgElectron)->Mass();
+    static const double muon_threshold = 2.*PDGLibrary::Instance()->Find(kPdgMuon)->Mass();
+    // compute the phase space corrections for electron and muon decays TODO: check if they hold for 3-body
+    double e_ratio = electron_threshold / fDMediatorMass;
+    double e_phase_space_correction = sqrt(1. - e_ratio*e_ratio );
+    double mu_ratio = muon_threshold / fDMediatorMass;
+    double mu_phase_space_correction = sqrt(1. - mu_ratio*mu_ratio );
+
+    for(size_t i=0; i<neutrinos.size(); ++i){
+      const double prefactor = kAem * fEps2 * fAlpha_D * fMixing2s[3] * fMixing2s[i] / kPi;
+      const double term1 = (6*fDMediatorMass2*fDMediatorMass2 - fDNuMass2*fDNuMass2 -3*fDMediatorMass2*fDNuMass2) / 6 / fDMediatorMass2 / fDNuMass;
+      const double finite_log = 0.5 * fDMediatorMass2 * squareMassDiff * std::log(squareMassDiff*squareMassDiff/(fDMediatorMass2*fDMediatorMass2)) / (fDNuMass2*fDNuMass);
+      const double base_decay_width = prefactor * (term1 + finite_log);
+
+      const auto daughter_nu_pdg = (mother_pdg == kPdgDarkNeutrino) ? neutrinos[i] : antineutrinos[i];
+      if (fDMediatorMass > electron_threshold){
+        const double decay_width = base_decay_width /* * e_phase_space_correction */;
+        dcs.push_back(DecayChannel{{daughter_nu_pdg, kPdgElectron, kPdgPositron}, decay_width});
+      }
+      if (fDMediatorMass > muon_threshold){
+        const double decay_width = base_decay_width /* * mu_phase_space_correction */;
+        dcs.push_back(DecayChannel{{daughter_nu_pdg, kPdgMuon, kPdgAntiMuon}, decay_width});
+      }
+    }
+  }
   return dcs;
 }
 //____________________________________________________________________________
@@ -425,11 +455,11 @@ void DarkSectorDecayer::LoadConfig(void)
   // Until the decay amplitude in neutrino is not available
   // we need to check that the mass hierarchy is respected.
   if ( fDMediatorMass >= fDNuMass ) {
-    good_configuration = false ;
+    // good_configuration = false ;
     LOG("DarkSectorDecayer", pERROR )
-      << "Dark mediator mass (" <<  fDMediatorMass
-      << " GeV) too heavy for the dark neutrino ("
-      << fDNuMass << " GeV) to decay" ;
+      << "Dark neutrino (mass " <<  fDNuMass
+      << " GeV) decays to off-shell mediator ("
+      << fDMediatorMass << " GeV) to decay" ;
   }
 
   // The other check we need is that the mass of the mediator
