@@ -275,7 +275,8 @@ std::vector<DarkSectorDecayer::DecayChannel> DarkSectorDecayer::DarkNeutrinoDeca
   else if (mother_pdg == kPdgDarkNeutrino || mother_pdg == kPdgAntiDarkNeutrino){
     const double gV2_nu = 1;
     const double gA2_nu = 1;
-    const double squareMassDiff = fDMediatorMass2 - fDNuMass2;
+
+    const double log_ratio = fDNuMass2 / fDMediatorMass2;
     static const double electron_threshold = 2.*PDGLibrary::Instance()->Find(kPdgElectron)->Mass();
     static const double muon_threshold = 2.*PDGLibrary::Instance()->Find(kPdgMuon)->Mass();
     // compute the phase space corrections for electron and muon decays TODO: check if they hold for 3-body
@@ -286,8 +287,10 @@ std::vector<DarkSectorDecayer::DecayChannel> DarkSectorDecayer::DarkNeutrinoDeca
 
     for(size_t i=0; i<neutrinos.size(); ++i){
       const double prefactor = kAem * fEps2 * fAlpha_D * fMixing2s[3] * fMixing2s[i] / kPi;
-      const double term1 = (6*fDMediatorMass2*fDMediatorMass2 - fDNuMass2*fDNuMass2 -3*fDMediatorMass2*fDNuMass2) / 6 / fDMediatorMass2 / fDNuMass;
-      const double finite_log = 0.5 * fDMediatorMass2 * squareMassDiff * std::log(squareMassDiff*squareMassDiff/(fDMediatorMass2*fDMediatorMass2)) / (fDNuMass2*fDNuMass);
+      const double term1 = (6*fDMediatorMass2*fDMediatorMass2 - fDNuMass2*fDNuMass2 -3*fDMediatorMass2*fDNuMass2) 
+                            / 6 / fDMediatorMass2 / fDNuMass;
+      const double finite_log = fDMediatorMass2 * (fDMediatorMass2 - fDNuMass2) 
+                                * std::log1p(-log_ratio) / (fDNuMass2*fDNuMass);
       const double base_decay_width = prefactor * (term1 + finite_log);
 
       const auto daughter_nu_pdg = (mother_pdg == kPdgDarkNeutrino) ? neutrinos[i] : antineutrinos[i];
